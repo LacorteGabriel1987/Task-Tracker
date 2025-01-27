@@ -17,40 +17,61 @@ function App() {
 
     if (taskText.trim() === "") return; // Impede adição de tarefas vazias
 
-    // Criando um objeto para representar a nova tarefa
     const newTask = {
       id: tasks.length + 1, // Gera um ID simples
-      text: taskText, // O texto digitado pelo usuário
-      completed: false, // Novas tarefas começam como pendentes
+      text: taskText,
+      completed: false,
     };
 
-    // Atualiza o estado da lista de tarefas
-    setTasks([...tasks, newTask]); // Adiciona a nova tarefa à lista
+    setTasks([...tasks, newTask]);
     setTaskText(""); // Limpa o campo de texto
   };
 
+  // **Função para alternar o estado de "concluído"**
+  const toggleTaskCompleted = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  // **Função para excluir uma tarefa**
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
-    <>
-      <div>
-        <h1>Task Tracker</h1>
-        <form onSubmit={handleAddTask}>
-          <input
-            type="text"
-            placeholder="Nova tarefa"
-            value={taskText}
-            onChange={(e) => setTaskText(e.target.value)} // Atualiza o estado ao digitar
-          />
-          <button type="submit">Adicionar</button>
-        </form>
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              {task.text} - {task.completed ? "✅" : "❌"}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+    <div>
+      <h1>Task Tracker</h1>
+      <form onSubmit={handleAddTask}>
+        <input
+          type="text"
+          placeholder="Nova tarefa"
+          value={taskText}
+          onChange={(e) => setTaskText(e.target.value)}
+        />
+        <button type="submit">Adicionar</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <span
+              className={`task ${task.completed ? "completed" : ""}`}
+              onClick={() => toggleTaskCompleted(task.id)}
+            >
+              {task.text}
+            </span>
+            <button
+              className="remove-button"
+              onClick={() => deleteTask(task.id)}
+            >
+              Remover
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

@@ -1,14 +1,68 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Estilo geral */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
 }
 
 h1 {
-  text-align: center;
-  margin-top: 20px;
+  color: #333;
+}
+
+input {
+  padding: 8px;
+  width: 300px;
+  margin-right: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo da lista de tarefas */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.task {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.task.completed {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+/* Botão de remover */
+.remove-button {
+  padding: 6px 10px;
+  margin-left: 10px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #a71d2a;
 }
