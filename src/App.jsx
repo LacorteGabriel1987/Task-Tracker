@@ -1,17 +1,24 @@
 import { useState } from "react";
 import "./App.css";
 
+// Carrega as tarefas do Local Storage
+const loadTasksFromLocalStorage = () => {
+  const savedTasks = localStorage.getItem("tasks");
+  return savedTasks ? JSON.parse(savedTasks) : [];
+};
+
 function App() {
-  // Lista de tarefas
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Estudar React", completed: false },
-    { id: 2, text: "Fazer exercícios", completed: true },
-    { id: 3, text: "Organizar o ambiente de trabalho", completed: false },
-  ]);
+  // Usa o Local Storage para carregar as tarefas ao iniciar
+  const [tasks, setTasks] = useState(loadTasksFromLocalStorage);
 
   const [taskText, setTaskText] = useState(""); // Estado para o texto da nova tarefa
 
-  // Função para lidar com o envio do formulário
+  // Função para salvar as tarefas no Local Storage
+  const saveTasksToLocalStorage = (tasks) => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+
+  // Função para lidar com o envio do formulário (adicionar uma nova tarefa)
   const handleAddTask = (e) => {
     e.preventDefault();
 
@@ -23,22 +30,26 @@ function App() {
       completed: false,
     };
 
-    setTasks([...tasks, newTask]);
+    const updatedTasks = [...tasks, newTask]; // Adiciona a nova tarefa na lista
+    setTasks(updatedTasks); // Atualiza o estado
+    saveTasksToLocalStorage(updatedTasks); // Salva no Local Storage
     setTaskText(""); // Limpa o campo de texto
   };
 
-  // **Função para alternar o estado de "concluído"**
+  // Função para alternar o estado de "concluído"
   const toggleTaskCompleted = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
+    setTasks(updatedTasks); // Atualiza o estado
+    saveTasksToLocalStorage(updatedTasks); // Salva no Local Storage
   };
 
-  // **Função para excluir uma tarefa**
+  // Função para excluir uma tarefa
   const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks); // Atualiza o estado
+    saveTasksToLocalStorage(updatedTasks); // Salva no Local Storage
   };
 
   return (
